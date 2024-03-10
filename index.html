@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Quiz Maker</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom CSS -->
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+  }
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1, h2 {
+    text-align: center;
+  }
+  .question {
+    margin-bottom: 20px;
+  }
+  .options label {
+    display: block;
+  }
+  .btn-submit {
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Online Quiz Maker</h1>
+  <div id="quiz">
+    <div class="question">
+      <h2 id="question-text"></h2>
+    </div>
+    <div class="options" id="options-list">
+      <!-- Options will be dynamically inserted here -->
+    </div>
+    <button class="btn btn-primary btn-submit" onclick="submitAnswer()">Submit Answer</button>
+  </div>
+  <div id="result" style="display: none;">
+    <h2 id="result-text"></h2>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Custom JS -->
+<script>
+  const quizData = [
+    {
+    question: 'what does HTML stand for?',
+    options: ['Hyper Text Markup Language', 'High Tech Markup Language', 'Hyperlink Text Markup Language', 'Home Tool Markup Language'],
+    correctAnswer: 'Hyper Text Markup Language ',
+  },
+  {
+    question: 'Which techology is primarily resposible for the styling of web pages?',
+    options: ['Javascript', 'Html', 'css', 'All'],
+    correctAnswer: 'css',
+  },
+  {
+    question: 'which progrmming language is mainly used for adding interactivity to websites?',
+    options: ['Javascript', 'Html', 'css', 'All'],
+    correctAnswer: 'Javascript',
+  },
+{
+question: 'which Html tag is used to create a hyperlink?',
+options: ['{a}', '{link}', '{l}', '{p}'],
+correctAnswer: '{a}',
+  },
+{
+question: 'which CSS property is used to control the spacing between elements in a layout?',
+options: ['padding', 'spacing', 'border', 'margin'],
+correctAnswer: 'margin',
+  },
+{
+question: 'which CSS property is used to change to the font size of text?',
+options: ['font-size', 'text-size', 'font-style', 'text-style'],
+correctAnswer: 'font-size',
+  },
+{
+question: 'which javascript function is used to change the content of an HTML element?',
+options: ['modify()', 'change()', 'update()', 'innerHTML()'],
+correctAnswer: 'innerHTML()',
+  },
+{
+question: 'which HTTP method is typically used to retrieve data from a web sever?',
+options: ['POST', 'GET', 'PUSH', 'DELETE'],
+correctAnswer: 'innerHTML()',
+  },
+
+{
+question: 'which is not valid data type in javascript?',
+options: ['Undefineded', 'Boolean', 'float', 'Number'],
+correctAnswer: 'float',
+  },
+{
+question: 'The escape sequence "/f" stand for ?',
+options: ['Floating numbers', 'Form feed', 'Functions return values', 'None'],
+correctAnswer: 'Form feed',
+  },
+{
+
+question: 'which of the following function of Array object removes the last element from an array and retuns that element?',
+options: ['push()', 'delete()', 'insert()', 'pop()'],
+correctAnswer: 'pop()',
+  },
+{
+question: 'Original Name of javascript is?',
+options: ['Mocha', 'LiveScript', 'Escript', 'Javascript'],
+correctAnswer: 'Mocha',
+  },
+{
+question: 'Javascript is which type of language?',
+options: ['Interpreted', 'Complied', 'Both', 'None'],
+correctAnswer: 'Interpreted',
+  },
+{
+question: 'which one is Ternary Operator',
+options: ['?*', '?:', '?', '>?'],
+correctAnswer: '?:',
+  },
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function displayQuestion() {
+    const questionText = document.getElementById('question-text');
+    const optionsList = document.getElementById('options-list');
+    const currentQuizData = quizData[currentQuestion];
+
+    questionText.textContent = currentQuizData.question;
+    optionsList.innerHTML = '';
+
+    currentQuizData.options.forEach((option, index) => {
+      const optionLabel = document.createElement('label');
+      optionLabel.innerHTML = `
+        <input type="radio" name="option" value="${option}">
+        ${option}
+      `;
+      optionsList.appendChild(optionLabel);
+    });
+  }
+
+  function submitAnswer() {
+    const selectedOption = document.querySelector('input[name="option"]:checked');
+    if (!selectedOption) {
+      alert('Please select an option.');
+      return;
+    }
+
+    if (selectedOption.value === quizData[currentQuestion].correctAnswer) {
+      score++;
+    }
+
+    currentQuestion++;
+
+    if (currentQuestion < quizData.length) {
+      displayQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const quizDiv = document.getElementById('quiz');
+    const resultDiv = document.getElementById('result');
+    const resultText = document.getElementById('result-text');
+
+    quizDiv.style.display = 'none';
+    resultDiv.style.display = 'block';
+
+    resultText.textContent = `Your score: ${score}/${quizData.length}`;
+  }
+
+  // Initial display of the first question
+  displayQuestion();
+</script>
+
+</body>
+</html>
